@@ -1,6 +1,5 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { CalendarIcon } from 'lucide-react'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -19,6 +18,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { icons } from '@/utils/icons'
 
 type FormFields<T extends FieldValues> = {
   name: Path<T>
@@ -32,6 +32,8 @@ interface Props<T extends FieldValues> {
 }
 
 const FormDatePicker = <T extends FieldValues>({ form, fields }: Props<T>) => {
+  const Icons = icons()
+
   return (
     <Form {...form}>
       <div className="w-full space-y-8">
@@ -39,7 +41,7 @@ const FormDatePicker = <T extends FieldValues>({ form, fields }: Props<T>) => {
           control={form.control}
           name={fields.name}
           render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
+            <FormItem className="w-full">
               <FormLabel>{fields.label}</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -48,7 +50,7 @@ const FormDatePicker = <T extends FieldValues>({ form, fields }: Props<T>) => {
                       variant={'outline'}
                       disabled={fields.disabled}
                       className={cn(
-                        'w-full rounded-[8px] border-[#e5e7eb] pl-3 text-left font-normal',
+                        'w-full rounded-[8px] bg-zinc-50 dark:bg-zinc-700 border-none shadow pl-3 text-left font-normal flex justify-center items-center gap-2',
                         !field.value && 'text-muted-foreground',
                       )}
                     >
@@ -59,12 +61,12 @@ const FormDatePicker = <T extends FieldValues>({ form, fields }: Props<T>) => {
                           Selecione uma Data
                         </span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      {Icons.calendar}
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent
-                  className="w-auto rounded-[8px] bg-zinc-800 p-0 text-zinc-50"
+                  className="w-auto rounded-[8px] bg-zinc-800 p-0 text-[--primary-foreground]"
                   align="start"
                 >
                   <Calendar

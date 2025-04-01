@@ -9,13 +9,7 @@ interface Props {
   disabled?: boolean
 }
 
-export const Switch = ({
-  id,
-  label,
-  onChange,
-  checked,
-  disabled = false,
-}: Props) => {
+const Switch = ({ id, label, onChange, checked, disabled = false }: Props) => {
   return (
     <div className="flex items-center space-x-2">
       <SwitchShadcn
@@ -23,8 +17,11 @@ export const Switch = ({
         checked={checked}
         disabled={disabled}
         onCheckedChange={onChange}
+        className="data-[state=checked]:bg-[--primary]"
       />
       <Label htmlFor={id}>{label}</Label>
     </div>
   )
 }
+
+export { Switch }

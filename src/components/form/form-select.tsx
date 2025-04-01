@@ -25,20 +25,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { IOption } from '@/types'
 import { Icon } from '@/types/icon'
-import { icons } from '@/utils/icons'
-
-type Option = {
-  value: any
-  label: string
-}
+import { icons } from '@/utils'
 
 type FormFields<T extends FieldValues> = {
   name: Path<T>
   label: string
   icon: Icon
   placeholder: string
-  options: Option[]
+  options: IOption[]
   disabled?: boolean
 }
 
@@ -50,6 +46,24 @@ interface Props<T extends FieldValues> {
 const FormSelect = <T extends FieldValues>({ form, fields }: Props<T>) => {
   const options = fields.options || []
 
+  const Icons = icons()
+
+  const getCurrentValue = (fieldValue: any) => {
+    if (fieldValue === undefined) return undefined
+
+    // Convert to string for comparison if the value is a number
+    const normalizedFieldValue =
+      typeof fieldValue === 'number' ? String(fieldValue) : fieldValue
+
+    return (
+      options.find((item) => {
+        const normalizedItemValue =
+          typeof item.value === 'number' ? String(item.value) : item.value
+        return normalizedItemValue === normalizedFieldValue
+      })?.label || 'Seleção inválida'
+    )
+  }
+
   return (
     <Form {...form}>
       <div className="w-full space-y-8">
@@ -59,9 +73,9 @@ const FormSelect = <T extends FieldValues>({ form, fields }: Props<T>) => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>{fields.label}</FormLabel>
-              <div className="relative z-10 flex w-full items-center justify-between gap-3 rounded-[8px] border">
-                <div className="ml-2 text-zinc-800 opacity-50">
-                  {icons[fields.icon]}
+              <div className="relative bg-zinc-50 dark:bg-zinc-700 z-10 flex w-full items-center justify-between gap-2 rounded-[8px] shadow">
+                <div className="ml-2 text-zinc-800 dark:text-zinc-50 opacity-50">
+                  {Icons[fields.icon]}
                 </div>
                 <Popover>
                   <PopoverTrigger disabled={fields.disabled} asChild>
@@ -72,55 +86,50 @@ const FormSelect = <T extends FieldValues>({ form, fields }: Props<T>) => {
                         aria-expanded="true"
                         aria-controls="select-options"
                         className={cn(
-                          'w-full justify-between border-transparent',
+                          'w-full justify-between border-transparent bg-zinc-50 dark:bg-zinc-700',
                           field.value === undefined && 'text-[#718096]',
                         )}
                       >
-                        {field.value !== undefined
-                          ? typeof field.value === 'object'
-                            ? options.find(
-                                (item) =>
-                                  item.value?.product?.id ===
-                                    field.value?.product?.id &&
-                                  item.value?.item === field.value?.item,
-                              )?.label || 'Seleção inválida'
-                            : options.find((item) => item.value === field.value)
-                                ?.label || 'Seleção inválida'
-                          : fields.placeholder}
+                        {getCurrentValue(field.value) || fields.placeholder}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-full bg-zinc-50 p-0">
+                  <PopoverContent className="w-full p-0">
                     <Command className="w-full">
                       <CommandInput placeholder="Buscar..." className="h-9" />
                       <CommandEmpty>Não encontrado.</CommandEmpty>
                       <CommandGroup>
                         <CommandList className="w-full" id="select-options">
-                          {options.map((item) => (
-                            <CommandItem
-                              className="cursor-pointer hover:bg-zinc-50/90"
-                              value={String(item.value)}
-                              key={String(item.value)}
-                              onSelect={() => {
-                                form.setValue(
-                                  fields.name,
-                                  item.value as PathValue<T, Path<T>>,
-                                )
-                              }}
-                              aria-selected={item.value === field.value}
-                            >
-                              {item.label}
-                              <Check
-                                className={cn(
-                                  'ml-auto h-4 w-4',
-                                  item.value === field.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0',
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
+                          {options.map((item) => {
+                            const isSelected =
+                              typeof field.value === 'number'
+                                ? String(item.value) === String(field.value)
+                                : item.value === field.value
+
+                            return (
+                              <CommandItem
+                                className="cursor-pointer transition duration-200 hover:bg-[--primary-foreground]/90"
+                                value={String(item.value)}
+                                key={String(item.value)}
+                                onSelect={() => {
+                                  form.setValue(
+                                    fields.name,
+                                    item.value as PathValue<T, Path<T>>,
+                                  )
+                                }}
+                                aria-selected={isSelected}
+                              >
+                                {item.label}
+                                <Check
+                                  className={cn(
+                                    'ml-auto h-4 w-4',
+                                    isSelected ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                              </CommandItem>
+                            )
+                          })}
                         </CommandList>
                       </CommandGroup>
                     </Command>

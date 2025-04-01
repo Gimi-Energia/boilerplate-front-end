@@ -1,8 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -27,9 +36,18 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
+
   .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -53,9 +71,10 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -63,4 +82,99 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+:root {
+  --border: 0, 0%, 90%; /* Cinza claro */
+  --input: 0, 0%, 95%; /* Cinza ainda mais claro */
+  --ring: 0, 0%, 80%; /* Cinza claro com menos saturação */ /* Preto */
+  --primary: #00a6f4;
+  --primary-50: #f0f9ff;
+  --primary-100: #dff2fe;
+  --primary-600: #0084d1;
+  --primary-700: #0069a8;
+  --primary-800: #00598a;
+  --primary-900: #024a71;
+  --primary-950: #052f4a;
+  --primary-foreground: #fafafa; /* Branco */
+  --secondary: 140, 90%, 40%; /*green-500*/
+  --secondary-foreground: 0, 0%, 100%; /* Branco */
+  --destructive: 0, 80%, 60%; /* Vermelho vibrante */
+  --destructive-foreground: 0, 0%, 100%; /* Branco */
+  --muted: 0, 0%, 90%; /* Cinza claro */
+  --muted-foreground: 0, 0%, 30%; /* Cinza escuro */
+  --accent: #06092b;
+  --accent-foreground: #fafafa; /* Branco */
+  --popover: 0, 0%, 95%; /* Cinza muito claro */
+  --popover-foreground: 0, 0%, 30%; /* Cinza escuro */
+}
+
+/* Estilização global da barra de rolagem */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #dad7d7 transparent; /* Firefox */
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+  border: 0;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.header,
+.footer,
+.sidebar {
+  background-color: hsl(var(--primary));
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+  border: 0;
+}
+
+input[type="date"] {
+  padding-right: 16px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
 }

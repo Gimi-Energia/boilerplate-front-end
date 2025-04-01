@@ -1,17 +1,40 @@
 'use client'
-
 import { ReactNode } from 'react'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { Session } from 'next-auth'
+import { SessionProvider } from 'next-auth/react'
 
-import { AuthProvider } from '@/context/auth-context'
+import { ThemeProvider, UserProvider } from '@/context'
+import { useQueryClient } from '@/hooks'
+import { useUserStore } from '@/stores'
 
-const queryClient = new QueryClient()
+interface MyAppProps {
+  session: Session | null
+  children: ReactNode
+}
 
-const Providers = ({ children }: { children: ReactNode }) => {
+const Providers = ({ children, session }: MyAppProps) => {
+  const queryClient = useQueryClient()
+  const { user } = useUserStore()
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <SessionProvider
+        session={session}
+        refetchOnWindowFocus={false}
+        refetchWhenOffline={false}
+        basePath="/api/auth"
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme={user?.theme}
+          enableSystem
+          disableTransitionOnChange
+        >
+          {' '}
+          <UserProvider>{children} </UserProvider>
+        </ThemeProvider>
+      </SessionProvider>
     </QueryClientProvider>
   )
 }

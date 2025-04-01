@@ -16,8 +16,10 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Props>(
   ({ icon, children, mask, className, type, onChange, ...rest }, ref) => {
+    const Icons = icons()
+
     const baseClassName = twMerge(
-      'flex h-9 w-full rounded border border-transparent bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+      'flex h-9 w-full rounded border border-transparent bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 placeholder-zinc-400 dark:placeholder-zinc-500',
       className,
     )
 
@@ -55,8 +57,8 @@ const Input = forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className="flex w-full items-center justify-between gap-1 border-none">
-        <div className="flex w-full items-center gap-3 rounded shadow">
-          <div className="pl-2 opacity-50">{icons[icon]}</div>
+        <div className="flex w-full items-center gap-2 rounded shadow bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50">
+          <div className="pl-2 opacity-50">{Icons[icon]}</div>
           {mask ? (
             <InputMask mask={mask} {...inputProps} />
           ) : (

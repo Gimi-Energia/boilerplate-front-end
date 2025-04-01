@@ -30,7 +30,7 @@ const FormCheckbox = <T extends FieldValues>({ form, fields }: Props<T>) => {
           control={form.control}
           name={fields.name}
           render={({ field: { value, onChange } }) => (
-            <FormItem className="flex w-full flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+            <FormItem className="flex w-full flex-row items-start space-x-3 space-y-0 rounded border p-4 shadow">
               <FormControl>
                 <Checkbox checked={value} onCheckedChange={onChange} />
               </FormControl>

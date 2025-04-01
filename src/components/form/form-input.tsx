@@ -32,6 +32,8 @@ interface Props<T extends FieldValues> {
   fields: FormFields<T>
 }
 
+const Icons = icons()
+
 const CustomInput = forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>
@@ -41,8 +43,8 @@ const CustomInput = forwardRef<
 
   return (
     <div className="flex w-full items-center justify-between gap-1 border-none">
-      <div className="flex w-full items-center gap-3 rounded shadow">
-        <div className="pl-2 opacity-50">{icons.banknote}</div>
+      <div className="flex w-full items-center gap-2 rounded shadow">
+        <div className="pl-2 opacity-50">{Icons.banknote}</div>
         <input
           ref={ref}
           className={`${baseClassName} ${className || ''}`}
