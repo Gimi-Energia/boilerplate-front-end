@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 
+import { Spinner } from '@/components/spinner'
 import { Button as ShadcnButton } from '@/components/ui/button'
 import {
   Tooltip,
@@ -11,8 +12,6 @@ import {
 } from '@/components/ui/tooltip'
 import { Icon } from '@/types/icon'
 import { icons } from '@/utils/icons'
-
-import { Spinner } from '@/components/spinner'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'outline' | 'ghost' | 'link' | 'destructive'
