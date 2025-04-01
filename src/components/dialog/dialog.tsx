@@ -64,7 +64,7 @@ const Dialog = ({
           )}
 
           <div className="flex-1 overflow-y-auto py-4">
-            <div className="flex w-full flex-col gap-2">{children}</div>
+            <div className="flex w-full flex-col gap-2 pr-2">{children}</div>
           </div>
 
           {isLoading ? (
